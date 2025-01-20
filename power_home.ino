@@ -75,4 +75,6 @@ void loop() {
     Serial.println(current, 2); // Mostrar con 2 decimales
 
     delay(1000); // Enviar datos cada segundo
+
+    //Antonio Herazo
 }
