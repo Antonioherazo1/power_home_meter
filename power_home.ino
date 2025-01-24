@@ -3,6 +3,7 @@
 #include <WiFiManager.h>      // Biblioteca que facilita la configuración Wi-Fi mediante un portal cautivo.
 #include <Arduino.h>          // Biblioteca principal de Arduino para utilizar las funciones básicas del sistema.
 
+<<<<<<< HEAD
 
 const int currentPin = A0;  // Pin para medir la corriente (SCT-013)
 const float sensitivity = 0.1;  // Sensibilidad del SCT-013 (100A/1V = 0.1 V/A)
@@ -13,6 +14,8 @@ const float powerFactor = 1.0;  // Factor de potencia (asume 1 si no se conoce)
 const int numSamples = 1000;  // Número de muestras para calcular RMS
 const float acFrequency = 50.0;  // Frecuencia de la red eléctrica (50 Hz o 60 Hz)
 
+=======
+>>>>>>> b942338db0de4023bee0c45a545229d065a5fb44
 // Configuración del sensor SCT-013-000
 const int sensorPin = A0;               // Pin analógico al que está conectado el sensor SCT-013-000.
 const float sensorFactor = 100.0;       // Relación del sensor: 1V = 100A, utilizada para convertir el voltaje a corriente.
@@ -22,8 +25,13 @@ const char* mqtt_broker = "thinc.site"; // Dirección del servidor MQTT.
 const char* mqtt_username = "ad";       // Nombre de usuario para autenticar la conexión MQTT.
 const char* mqtt_password = "mnea";     // Contraseña para autenticar la conexión MQTT.
 const int mqtt_port = 1883;             // Puerto estándar para MQTT.
+<<<<<<< HEAD
 const char* mqtt_topic_current = "consumo/amps"; // Tópico MQTT donde se publicará el valor de la corriente.
 const char* mqtt_topic_reset = "consumo/reset";   // Tópico MQTT para recibir comandos de reinicio del Wi-Fi.
+=======
+const char* mqtt_topic_current = "energia/corriente"; // Tópico MQTT donde se publicará el valor de la corriente.
+const char* mqtt_topic_reset = "control/resetWiFi";   // Tópico MQTT para recibir comandos de reinicio del Wi-Fi.
+>>>>>>> b942338db0de4023bee0c45a545229d065a5fb44
 
 // Objetos para manejar conexiones Wi-Fi y MQTT
 WiFiClient espClient;                   // Cliente Wi-Fi para conectarse a redes.
@@ -109,6 +117,7 @@ void loop() {
     }
     mqtt_client.loop(); // Mantiene la conexión MQTT y procesa los mensajes entrantes.
 
+<<<<<<< HEAD
     // Calculo corriente y potencia. 
     float currentRMS = calculateRMS(currentPin, sensitivity);
     float power = fixedVoltage * currentRMS * powerFactor;  // Potencia en vatios
@@ -116,11 +125,20 @@ void loop() {
     // Crear un mensaje con el valor de corriente en formato de texto con dos decimales.
     char currentMessage[50];
     snprintf(currentMessage, sizeof(currentMessage), "%.2f", currentRMS);
+=======
+    // Leer el valor de corriente del sensor.
+    float current = readCurrent();
+    
+    // Crear un mensaje con el valor de corriente en formato de texto con dos decimales.
+    char currentMessage[50];
+    snprintf(currentMessage, sizeof(currentMessage), "%.2f", current);
+>>>>>>> b942338db0de4023bee0c45a545229d065a5fb44
     
     // Publicar el valor de corriente en el tópico MQTT correspondiente.
     mqtt_client.publish(mqtt_topic_current, currentMessage);
 
     // Mostrar el valor de corriente en el monitor serial para depuración.
+<<<<<<< HEAD
     Serial.print("Current RMS: ");
     Serial.print(currentRMS);
     Serial.print(" A  Power: ");
@@ -142,3 +160,10 @@ float calculateRMS(int pin, float calibration) {
   }
   return sqrt(sumSquares / numSamples);
 }
+=======
+    Serial.print("Corriente: ");
+    Serial.println(current);
+
+    delay(1000); // Esperar 1 segundo antes de realizar la próxima lectura y publicación.
+}
+>>>>>>> b942338db0de4023bee0c45a545229d065a5fb44
